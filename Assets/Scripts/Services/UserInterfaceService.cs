@@ -8,6 +8,6 @@ namespace RPSLS.Services
         internal UserInterfaceBase CurrentInterface { get; set; }
 
         protected override void RegisterService() =>
-            Bootstrap.BootstrapInstance.RegisterService(this);
+            Bootstrap.RegisterService(this);
     }
 }

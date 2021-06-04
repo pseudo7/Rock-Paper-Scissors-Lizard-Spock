@@ -5,7 +5,7 @@ namespace RPSLS.Services
     public class AudioService : ServiceBase
     {
         protected override void RegisterService() =>
-            Bootstrap.BootstrapInstance.RegisterService(this);
+            Bootstrap.RegisterService(this);
 
         public void PlayAudio(string keyTag) =>
             throw new System.NotImplementedException();

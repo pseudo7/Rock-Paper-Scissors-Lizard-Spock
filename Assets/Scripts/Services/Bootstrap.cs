@@ -10,19 +10,19 @@ namespace RPSLS.Services
     {
         private static Bootstrap _bootstrapInstance;
 
-        public static Bootstrap BootstrapInstance
+        private static Bootstrap BootstrapInstance
             => _bootstrapInstance ??= new Bootstrap();
 
-        internal void RegisterService<T>(T service) where T : ServiceBase
+        internal static void RegisterService<T>(T service) where T : ServiceBase
         {
-            if (!_serviceMap.ContainsKey(typeof(T)))
+            if (!BootstrapInstance._serviceMap.ContainsKey(typeof(T)))
             {
-                _serviceMap.Add(typeof(T), service);
+                BootstrapInstance._serviceMap.Add(typeof(T), service);
                 Debug.Log($"Registered New Service: {service.GetType().Name}");
             }
-            else if (_serviceMap[typeof(T)] == null)
+            else if (BootstrapInstance._serviceMap[typeof(T)] == null)
             {
-                _serviceMap[typeof(T)] = service;
+                BootstrapInstance._serviceMap[typeof(T)] = service;
                 Debug.Log($"Registered Existing Service: {service.GetType().Name}");
             }
             else Debug.LogWarning($"Registering Service Again: {service.GetType().Name}".ToColoredString(Color.red));
@@ -30,8 +30,8 @@ namespace RPSLS.Services
             GC.Collect();
         }
 
-        internal T GetService<T>() where T : ServiceBase =>
-            _serviceMap[typeof(T)] as T;
+        internal static T GetService<T>() where T : ServiceBase =>
+            BootstrapInstance._serviceMap[typeof(T)] as T;
 
         private readonly Dictionary<Type, ServiceBase> _serviceMap = new Dictionary<Type, ServiceBase>();
     }

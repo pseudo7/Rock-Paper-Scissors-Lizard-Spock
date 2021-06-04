@@ -3,14 +3,18 @@ using UnityEngine;
 
 namespace RPSLS.StateMachine.Base
 {
-    public abstract class StateMachineBase : MonoBehaviour
+    public abstract class StateMachineBase
     {
         protected StateBase CurrentState;
+        private readonly MonoBehaviour _referencedBehaviour;
+
+        protected StateMachineBase(MonoBehaviour referencedBehaviour) =>
+            _referencedBehaviour = referencedBehaviour;
 
         internal void SetState(StateBase newState)
         {
             CurrentState = newState;
-            StartCoroutine(CurrentState.Initialise());
+            _referencedBehaviour.StartCoroutine(CurrentState.Initialise());
         }
     }
 }

@@ -27,10 +27,10 @@ namespace RPSLS.UI.Base
 
         protected virtual void Start()
         {
-            Bootstrap.BootstrapInstance.GetService<UserInterfaceService>().CurrentInterface = this;
+            Bootstrap.GetService<UserInterfaceService>().CurrentInterface = this;
             screenBases.ForEach(x => x.DisableScreen());
             screenBases[0].EnableScreen();
-            _audioService = Bootstrap.BootstrapInstance.GetService<AudioService>();
+            _audioService = Bootstrap.GetService<AudioService>();
         }
 
         private void OnEnable()
