@@ -20,12 +20,12 @@ namespace RPSLS.Services
         private readonly Dictionary<AssetReference, AsyncOperationHandle<GameObject>> _operationsMap =
             new Dictionary<AssetReference, AsyncOperationHandle<GameObject>>();
 
-        [SerializeField] private List<AddressableAssetScriptableObject> effectReferences;
+        [SerializeField] private List<AddressableAssetScriptableObject> assetReferences;
 
         private Dictionary<string, AssetReference> _assetReferenceMap;
 
         private void OnValidate() =>
-            _assetReferenceMap = effectReferences
+            _assetReferenceMap = assetReferences
                 .ToDictionary(assets => assets.AssetKey,
                     assets => assets.AssetReference);
 

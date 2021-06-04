@@ -1,5 +1,6 @@
 using RPSLS.Services.Base;
 using RPSLS.StateMachine;
+using RPSLS.StateMachine.States;
 
 namespace RPSLS.Services
 {
@@ -10,6 +11,7 @@ namespace RPSLS.Services
         protected override void RegisterService()
         {
             CurrentFsm ??= new GameplaySystem(this);
+            CurrentFsm.SetState(new InitialState());
             Bootstrap.RegisterService(this);
         }
     }

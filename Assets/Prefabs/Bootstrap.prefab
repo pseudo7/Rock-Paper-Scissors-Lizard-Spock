@@ -71,7 +71,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c141fe90941ca7f43b6f0f21675c17c3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  effectReferences: []
+  assetReferences:
+  - {fileID: 11400000, guid: 99cf774904d1e2147ae3037f04b84b00, type: 2}
 --- !u!114 &2605170360212197038
 MonoBehaviour:
   m_ObjectHideFlags: 0

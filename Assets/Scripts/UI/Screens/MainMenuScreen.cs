@@ -13,11 +13,18 @@ namespace RPSLS.UI.Screens
         [SerializeField] private Gradient backgroundColors;
 
         private const float LerpFactor = .1F;
+        private Coroutine _interpolationCoroutine;
 
-        protected override void InitializeScreen()
+        protected internal override void EnableScreen()
         {
-            base.InitializeScreen();
-            StartCoroutine(BackgroundInterpolationRoutine());
+            base.EnableScreen();
+            _interpolationCoroutine = StartCoroutine(BackgroundInterpolationRoutine());
+        }
+
+        protected internal override void DisableScreen()
+        {
+            base.DisableScreen();
+            if (_interpolationCoroutine != null) StopCoroutine(_interpolationCoroutine);
         }
 
         private IEnumerator BackgroundInterpolationRoutine()
