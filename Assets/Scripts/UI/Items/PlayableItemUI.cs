@@ -1,4 +1,6 @@
 using RPSLS.Miscellaneous;
+using RPSLS.Services;
+using RPSLS.UI.Screens;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -8,14 +10,23 @@ namespace RPSLS.UI.Items
     {
         [SerializeField] private Image iconImg;
 
-        private GameEnums.PlayableOptionType _optionType;
+        internal GameEnums.PlayableHandType HandType { get; private set; }
 
-        internal void SetValues(Sprite iconSprite, GameEnums.PlayableOptionType optionType) =>
-            (iconImg.sprite, _optionType) = (iconSprite, optionType);
+        internal void SetValues(Sprite iconSprite, GameEnums.PlayableHandType handType) =>
+            (iconImg.sprite, HandType) = (iconSprite, handType);
 
         public void OnOptionClicked()
         {
-            Debug.Log(_optionType);
+            var hudScreen = Bootstrap.GetService<UserInterfaceService>()
+                .CurrentInterface
+                .GetScreen<GameplayHudScreen>();
+            hudScreen.SetPlayerOptionType(HandType);
+            Bootstrap.GetService<GameManagementService>().CurrentPlayerSelection = HandType;
+            transform.SetAsLastSibling();
+            Debug.Log(HandType);
         }
+
+        internal void ToggleScale(bool selected) =>
+            transform.localScale = selected ? GameConstants.SelectedScale : GameConstants.NormalScale;
     }
 }

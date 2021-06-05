@@ -1,13 +1,13 @@
 namespace RPSLS.Miscellaneous
 {
-    public sealed class GameEnums
+    public static class GameEnums
     {
-        public enum PlayableOptionType
+        public enum PlayableHandType
         {
             None,
             Rock,
             Paper,
-            Scissor,
+            Scissors,
             Lizard,
             Spock
         }

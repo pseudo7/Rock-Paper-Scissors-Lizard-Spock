@@ -1,5 +1,7 @@
 using System.Collections;
+using RPSLS.Services;
 using RPSLS.StateMachine.States.Base;
+using RPSLS.UI.Screens;
 
 namespace RPSLS.StateMachine.States
 {
@@ -7,7 +9,10 @@ namespace RPSLS.StateMachine.States
     {
         internal override IEnumerator Initialise()
         {
-            // TODO: Update Scores Here
+            yield return null;
+            Bootstrap.GetService<UserInterfaceService>()
+                .CurrentInterface
+                .ActivateThisScreen<MainMenuScreen>();
             yield break;
         }
     }

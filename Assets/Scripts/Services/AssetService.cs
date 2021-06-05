@@ -6,6 +6,7 @@ using UnityEngine;
 using UnityEngine.AddressableAssets;
 using UnityEngine.ResourceManagement.AsyncOperations;
 using UnityEngine.ResourceManagement.ResourceProviders;
+using Object = UnityEngine.Object;
 
 namespace RPSLS.Services
 {
@@ -120,8 +121,7 @@ namespace RPSLS.Services
             _queuedRequestMap[assetReference].Enqueue(parameters);
         }
 
-        private void SpawnAsset(AssetReference assetReference, InstantiationParameters parameters)
-        {
+        private void SpawnAsset(AssetReference assetReference, InstantiationParameters parameters) =>
             assetReference.InstantiateAsync(parameters.Position, parameters.Rotation, parameters.Parent)
                 .Completed += operation =>
             {
@@ -132,7 +132,6 @@ namespace RPSLS.Services
                 memoryReleaseCallback.CurrentAssetReference = assetReference;
                 memoryReleaseCallback.OnObjectDestroyed += ReleaseMemory;
             };
-        }
 
         private void ReleaseMemory(AssetReference assetReference, MemoryRelease releaseObj)
         {
@@ -145,9 +144,11 @@ namespace RPSLS.Services
             {
                 Addressables.Release(_operationsMap[assetReference]); // Release the memory from the loaded asset
                 _operationsMap.Remove(assetReference); // Finally remove from the dictionary 
-                Resources.UnloadUnusedAssets(); // Force check to release the memory
             }
         }
+
+        private void OnApplicationQuit() =>
+            Resources.UnloadUnusedAssets(); // Force check to release the memory
 
         protected override void RegisterService() =>
             Bootstrap.RegisterService(this);
