@@ -22,7 +22,7 @@ namespace RPSLS.StateMachine.States
             yield return Bootstrap.GetService<UserInterfaceService>()
                 .CurrentInterface
                 .GetScreen<GameplayHudScreen>()
-                .ShowCountdown();
+                .ShowCountdownTimer();
             Bootstrap.GetService<StateMachineService>().CurrentFsm.SetState(new MakeYourMoveState());
         }
     }

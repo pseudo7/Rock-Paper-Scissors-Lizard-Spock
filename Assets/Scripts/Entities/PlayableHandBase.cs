@@ -16,6 +16,6 @@ namespace RPSLS.Entities
             };
 
         protected internal abstract GameEnums.PlayableHandType HandType { get; }
-        protected internal abstract bool CheckWinAgainstOtherHand(PlayableHandBase otherHand, out string message);
+        protected internal abstract bool? CheckWinAgainstOtherHand(PlayableHandBase otherHand, out string message);
     }
 }

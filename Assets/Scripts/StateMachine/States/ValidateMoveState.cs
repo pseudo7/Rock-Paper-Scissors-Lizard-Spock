@@ -12,16 +12,28 @@ namespace RPSLS.StateMachine.States
     {
         internal override IEnumerator Initialise()
         {
+            var interfaceService = Bootstrap.GetService<UserInterfaceService>();
+            interfaceService.ToggleInteractions(false);
+
             var fsmService = Bootstrap.GetService<StateMachineService>();
-            var result = CheckForWin(Bootstrap.GetService<GameManagementService>().CurrentPlayerSelection);
+            var result = CalculateResults(Bootstrap.GetService<GameManagementService>().CurrentPlayerSelection);
+
+            interfaceService.CurrentInterface.GetScreen<GameplayHudScreen>().ShowVignette(result);
+
+            if (result.HasValue && !result.Value)
+                Handheld.Vibrate();
 
             yield return fsmService.StartCoroutine(Perform());
 
-            if (result)
+            if (!result.HasValue)
+            {
+                fsmService.CurrentFsm.SetState(new PlayState());
+                Bootstrap.GetService<ScoreService>().IncrementCurrentScore(0);
+            }
+            else if (result.Value)
             {
                 fsmService.CurrentFsm.SetState(new PlayState());
                 Bootstrap.GetService<ScoreService>().IncrementCurrentScore(1);
-                // TODO: Confirm this once if same hand is considered as a win
             }
             else
             {
@@ -30,16 +42,16 @@ namespace RPSLS.StateMachine.States
                 Bootstrap.GetService<ScoreService>().ResetCurrentScore();
             }
 
-            Bootstrap.GetService<GameManagementService>().CurrentPlayerSelection = GameEnums.PlayableHandType.None;
+            Bootstrap.GetService<GameManagementService>().ResetValues();
+            interfaceService.ToggleInteractions(true);
         }
 
         internal override IEnumerator Perform()
         {
-            yield return new WaitForSeconds(2F);
-            yield break;
+            yield return new WaitForSeconds(3F);
         }
 
-        private bool CheckForWin(GameEnums.PlayableHandType playerSelectedType)
+        private bool? CalculateResults(GameEnums.PlayableHandType playerSelectedType)
         {
             var hudScreen = Bootstrap.GetService<UserInterfaceService>()
                 .CurrentInterface

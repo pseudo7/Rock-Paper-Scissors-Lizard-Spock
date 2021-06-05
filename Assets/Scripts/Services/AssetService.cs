@@ -6,7 +6,6 @@ using UnityEngine;
 using UnityEngine.AddressableAssets;
 using UnityEngine.ResourceManagement.AsyncOperations;
 using UnityEngine.ResourceManagement.ResourceProviders;
-using Object = UnityEngine.Object;
 
 namespace RPSLS.Services
 {
@@ -24,6 +23,14 @@ namespace RPSLS.Services
         [SerializeField] private List<AddressableAssetScriptableObject> assetReferences;
 
         private Dictionary<string, AssetReference> _assetReferenceMap;
+
+        protected override void Awake()
+        {
+            base.Awake();
+            _assetReferenceMap = assetReferences
+                .ToDictionary(assets => assets.AssetKey,
+                    assets => assets.AssetReference);
+        }
 
         private void OnValidate() =>
             _assetReferenceMap = assetReferences

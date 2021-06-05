@@ -7,13 +7,13 @@ namespace RPSLS.Entities
     {
         protected internal override GameEnums.PlayableHandType HandType => GameEnums.PlayableHandType.Rock;
 
-        protected internal override bool CheckWinAgainstOtherHand(PlayableHandBase otherHand, out string message)
+        protected internal override bool? CheckWinAgainstOtherHand(PlayableHandBase otherHand, out string message)
         {
             switch (otherHand.HandType)
             {
                 case GameEnums.PlayableHandType.Rock:
                     Debug.Log(message = "Boom Same");
-                    return true;
+                    return null;
                 case GameEnums.PlayableHandType.Scissors:
                     Debug.Log(message = "You Crushed Scissors");
                     return true;

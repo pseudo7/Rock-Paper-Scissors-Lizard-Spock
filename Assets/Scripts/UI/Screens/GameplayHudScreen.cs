@@ -1,4 +1,3 @@
-using System;
 using System.Collections;
 using System.Collections.Generic;
 using RPSLS.Miscellaneous;
@@ -12,7 +11,6 @@ using UnityEngine.UI;
 
 namespace RPSLS.UI.Screens
 {
-    // TODO: Finish up state logic 
     public class GameplayHudScreen : ScreenBase
     {
         [SerializeField] private Transform optionsParent;
@@ -20,7 +18,13 @@ namespace RPSLS.UI.Screens
         [SerializeField] private CustomSlider timeBar;
         [SerializeField] private HorizontalLayoutGroup optionsLayoutGroup;
         [SerializeField] private TextMeshProUGUI countdownTmp;
+        [SerializeField] private TextMeshProUGUI currentScoreTmp;
         [SerializeField] private Image cpuHandImg;
+        [SerializeField] private Image vignetteImg;
+        [SerializeField] private CaptionCreator gameCaptions;
+        [SerializeField] private Gradient handLostGradient;
+        [SerializeField] private Gradient handWonGradient;
+        [SerializeField] private Gradient handTieGradient;
 
         private const string OptionsItemKey = "PlayableItem";
         private const int OptionsCount = 5;
@@ -38,7 +42,7 @@ namespace RPSLS.UI.Screens
         {
             base.EnableScreen();
             UpdateCPUTurnSprite(GameEnums.PlayableHandType.None);
-            timeBar.Value = 1F;
+            UpdateTimeBar(1F);
         }
 
         protected internal override void DisableScreen()
@@ -52,6 +56,32 @@ namespace RPSLS.UI.Screens
 
         public override void OnBackKeyPressed() =>
             PreviousScreen(true);
+
+        internal Coroutine ShowCountdownTimer() =>
+            StartCoroutine(CountdownRoutine());
+
+        internal void UpdateTimeBar(float val) =>
+            timeBar.Value = val;
+
+        internal void UpdateCurrentScore(int score) =>
+            currentScoreTmp.text = $"Current Score '{score}'";
+
+        internal void SetPlayerOptionType(GameEnums.PlayableHandType handType) =>
+            _playableOptions.ForEach(item => item.ToggleScale(item.HandType == handType));
+
+        internal void ShowOutcomeMessage(string message)
+        {
+            gameCaptions.TranslateCaptionText(message);
+            Debug.LogError(message.ToColoredString(Color.green));
+        }
+
+        internal void UpdateCPUTurnSprite(GameEnums.PlayableHandType handType) =>
+            cpuHandImg.sprite = handType == GameEnums.PlayableHandType.None
+                ? iconSprites[5]
+                : GetIconSprite(handType);
+
+        internal void ShowVignette(bool? hasPlayerWon) =>
+            StartCoroutine(VignetteRoutine(hasPlayerWon));
 
         private void OnApplicationQuit() =>
             DePopulatePlayerOptions();
@@ -93,26 +123,6 @@ namespace RPSLS.UI.Screens
                 Destroy(_playableOptions[count]?.gameObject);
         }
 
-        internal Coroutine ShowCountdown() =>
-            StartCoroutine(CountdownRoutine());
-
-        internal void UpdateTimeBar(float val) =>
-            timeBar.Value = val;
-
-        internal void SetPlayerOptionType(GameEnums.PlayableHandType handType) =>
-            _playableOptions.ForEach(item => item.ToggleScale(item.HandType == handType));
-
-        internal void ShowOutcomeMessage(string message)
-        {
-            // TODO
-            Debug.LogError(message);
-        }
-
-        internal void UpdateCPUTurnSprite(GameEnums.PlayableHandType handType) =>
-            cpuHandImg.sprite = handType == GameEnums.PlayableHandType.None
-                ? iconSprites[5]
-                : GetIconSprite(handType);
-
         private IEnumerator CountdownRoutine()
         {
             var wait = new WaitForSeconds(.75F);
@@ -126,6 +136,25 @@ namespace RPSLS.UI.Screens
             countdownTmp.text = string.Empty;
         }
 
+        private IEnumerator VignetteRoutine(bool? hasPlayerWon)
+        {
+            var progress = 0F;
+            var eof = new WaitForEndOfFrame();
+            var targetGradient = hasPlayerWon.HasValue
+                ? hasPlayerWon.Value
+                    ? handWonGradient
+                    : handLostGradient
+                : handTieGradient;
+            const float factor = .35F;
+            while (progress < 1F)
+            {
+                vignetteImg.color = targetGradient.Evaluate(progress);
+                yield return eof;
+                progress += Time.deltaTime * factor;
+            }
+
+            vignetteImg.color = targetGradient.Evaluate(1F);
+        }
 
         private Sprite GetIconSprite(GameEnums.PlayableHandType handType) =>
             handType switch
