@@ -22,8 +22,57 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels:
     - UI
-    m_MainAsset: {fileID: 8135468258840486733, guid: 7215bfc388d43ee4abc9f08180bd1186, type: 3}
-    m_TargetAsset: {fileID: 8135468258840486733, guid: 7215bfc388d43ee4abc9f08180bd1186, type: 3}
+    m_MainAsset: {fileID: 0}
+    m_TargetAsset: {fileID: 0}
+  - m_GUID: baea14ce9ebe4a842ba63443fc753ef7
+    m_Address: Bg Music
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - Audio
+    m_MainAsset: {fileID: 0}
+    m_TargetAsset: {fileID: 0}
+  - m_GUID: 6b5353edb91312a469efed4d858d1ae5
+    m_Address: Button Tap
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - Audio
+    m_MainAsset: {fileID: 8300000, guid: 6b5353edb91312a469efed4d858d1ae5, type: 3}
+    m_TargetAsset: {fileID: 8300000, guid: 6b5353edb91312a469efed4d858d1ae5, type: 3}
+  - m_GUID: 824ef1bf76da46d48ab770c5115967cf
+    m_Address: Lost
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - Audio
+    m_MainAsset: {fileID: 0}
+    m_TargetAsset: {fileID: 0}
+  - m_GUID: 2c2de51bba22d5543bdefd90432a6b93
+    m_Address: Tie
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - Audio
+    m_MainAsset: {fileID: 0}
+    m_TargetAsset: {fileID: 0}
+  - m_GUID: 73440f27cdfa4754697e13650b11bd09
+    m_Address: Won
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - Audio
+    m_MainAsset: {fileID: 0}
+    m_TargetAsset: {fileID: 0}
+  - m_GUID: 005155623cc74db49b0bede8318fbc3e
+    m_Address: Refill
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - Audio
+    m_MainAsset: {fileID: 0}
+    m_TargetAsset: {fileID: 0}
+  - m_GUID: 74f92fa20c5724f48b31fa556ba57952
+    m_Address: Hand Tap
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - Audio
+    m_MainAsset: {fileID: 0}
+    m_TargetAsset: {fileID: 0}
   m_ReadOnly: 0
   m_Settings: {fileID: 11400000, guid: 1a968f4f71edc48438a29dd558dcb84d, type: 2}
   m_SchemaSet:

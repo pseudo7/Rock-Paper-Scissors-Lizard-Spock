@@ -1,4 +1,5 @@
 using System.Collections;
+using RPSLS.Audio;
 using RPSLS.GameData;
 using RPSLS.Services;
 using RPSLS.StateMachine.States;
@@ -12,6 +13,7 @@ namespace RPSLS.UI.Screens
     {
         [SerializeField] private TextMeshProUGUI titleTextTmp;
         [SerializeField] private TextMeshProUGUI highScoreTextTmp;
+        [SerializeField] private GameObject infoPanel;
 
         private Coroutine _titleCoroutine;
 
@@ -37,11 +39,23 @@ namespace RPSLS.UI.Screens
             if (_titleCoroutine != null) StopCoroutine(_titleCoroutine);
         }
 
-        public void PlayGame() =>
+        public void PlayGame()
+        {
+            Bootstrap.GetService<AudioService>().PlayAudio(AudioTags.BUTTON_TAP);
             Bootstrap.GetService<StateMachineService>().CurrentFsm.SetState(new PlayState());
+        }
 
-        public void ExitGame() =>
+        public void ToggleInfoPanel(bool enable)
+        {
+            Bootstrap.GetService<AudioService>().PlayAudio(AudioTags.BUTTON_TAP);
+            infoPanel.SetActive(enable);
+        }
+
+        public void ExitGame()
+        {
+            Bootstrap.GetService<AudioService>().PlayAudio(AudioTags.BUTTON_TAP);
             Bootstrap.GetService<StateMachineService>().CurrentFsm.SetState(new FinalState());
+        }
 
         public override void OnBackKeyPressed() =>
             PreviousScreen(false);

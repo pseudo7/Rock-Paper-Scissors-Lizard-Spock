@@ -1,3 +1,4 @@
+using RPSLS.Audio;
 using RPSLS.Miscellaneous;
 using RPSLS.Services;
 using RPSLS.UI.Screens;
@@ -23,6 +24,7 @@ namespace RPSLS.UI.Items
             hudScreen.SetPlayerOptionType(HandType);
             Bootstrap.GetService<GameManagementService>().CurrentPlayerSelection = HandType;
             transform.SetAsLastSibling();
+            Bootstrap.GetService<AudioService>().PlayAudio(AudioTags.HAND_TAP);
             Debug.Log(HandType);
         }
 

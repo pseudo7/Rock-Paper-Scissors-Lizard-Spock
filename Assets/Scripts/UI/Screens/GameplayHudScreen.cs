@@ -25,17 +25,20 @@ namespace RPSLS.UI.Screens
         [SerializeField] private Gradient handLostGradient;
         [SerializeField] private Gradient handWonGradient;
         [SerializeField] private Gradient handTieGradient;
+        [SerializeField] private AnimationCurve bounceCurve;
 
         private const string OptionsItemKey = "PlayableItem";
         private const int OptionsCount = 5;
 
         private List<PlayableItemUI> _playableOptions;
+        private Vector3 _initialCpuHandPos;
 
         protected override void InitializeScreen()
         {
             base.InitializeScreen();
             _playableOptions = new List<PlayableItemUI> {null, null, null, null, null};
             PopulatePlayerOptions();
+            _initialCpuHandPos = cpuHandImg.transform.position;
         }
 
         protected internal override void EnableScreen()
@@ -82,6 +85,9 @@ namespace RPSLS.UI.Screens
 
         internal void ShowVignette(bool? hasPlayerWon) =>
             StartCoroutine(VignetteRoutine(hasPlayerWon));
+
+        internal void BounceCpuHand() =>
+            StartCoroutine(BounceRoutine());
 
         private void OnApplicationQuit() =>
             DePopulatePlayerOptions();
@@ -154,6 +160,29 @@ namespace RPSLS.UI.Screens
             }
 
             vignetteImg.color = targetGradient.Evaluate(1F);
+        }
+
+        private IEnumerator BounceRoutine()
+        {
+            var progress = 0F;
+            var finalProgress = bounceCurve[bounceCurve.length - 1].time;
+            var eof = new WaitForEndOfFrame();
+            var finalPosition = _initialCpuHandPos;
+            finalPosition.y += 100F;
+
+            cpuHandImg.transform.position = Vector3.Lerp(_initialCpuHandPos, finalPosition,
+                bounceCurve.Evaluate(progress));
+
+            while (progress < finalProgress)
+            {
+                cpuHandImg.transform.position = Vector3.Lerp(_initialCpuHandPos, finalPosition,
+                    bounceCurve.Evaluate(progress));
+                yield return eof;
+                progress += Time.deltaTime;
+            }
+
+            cpuHandImg.transform.position = Vector3.Lerp(_initialCpuHandPos, finalPosition,
+                bounceCurve.Evaluate(finalProgress));
         }
 
         private Sprite GetIconSprite(GameEnums.PlayableHandType handType) =>

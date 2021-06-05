@@ -10,8 +10,9 @@ namespace RPSLS.StateMachine.States
     {
         internal override IEnumerator Initialise()
         {
-            yield return Bootstrap.GetService<StateMachineService>().StartCoroutine(TimerRoutine());
-            Bootstrap.GetService<StateMachineService>().CurrentFsm.SetState(new ValidateMoveState());
+            var fsmService = Bootstrap.GetService<StateMachineService>();
+            yield return fsmService.StartCoroutine(TimerRoutine());
+            fsmService.CurrentFsm.SetState(new ValidateMoveState());
         }
 
         private IEnumerator TimerRoutine()

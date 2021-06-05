@@ -17,7 +17,6 @@ namespace RPSLS.UI.Base
 
         private int _currentIndex;
         private InputAction _escapeKeyAction;
-        private AudioService _audioService;
 
         internal IReadOnlyList<ScreenBase> Screens => screenBases;
 
@@ -30,7 +29,6 @@ namespace RPSLS.UI.Base
             Bootstrap.GetService<UserInterfaceService>().CurrentInterface = this;
             screenBases.ForEach(x => x.DisableScreen());
             screenBases[0].EnableScreen();
-            _audioService = Bootstrap.GetService<AudioService>();
         }
 
         private void OnEnable()

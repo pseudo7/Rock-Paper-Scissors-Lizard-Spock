@@ -17,12 +17,12 @@ namespace RPSLS.StateMachine.States
 
         internal override IEnumerator Perform()
         {
-            // TODO: Move in with the UI
             yield return new WaitForSeconds(.5F);
-            yield return Bootstrap.GetService<UserInterfaceService>()
+            var hudScreen = Bootstrap.GetService<UserInterfaceService>()
                 .CurrentInterface
-                .GetScreen<GameplayHudScreen>()
-                .ShowCountdownTimer();
+                .GetScreen<GameplayHudScreen>();
+            hudScreen.BounceCpuHand();
+            yield return hudScreen.ShowCountdownTimer();
             Bootstrap.GetService<StateMachineService>().CurrentFsm.SetState(new MakeYourMoveState());
         }
     }

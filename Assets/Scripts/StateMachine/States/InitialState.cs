@@ -1,7 +1,9 @@
 using System.Collections;
+using RPSLS.Audio;
 using RPSLS.Services;
 using RPSLS.StateMachine.States.Base;
 using RPSLS.UI.Screens;
+using UnityEngine;
 
 namespace RPSLS.StateMachine.States
 {
@@ -13,7 +15,9 @@ namespace RPSLS.StateMachine.States
             Bootstrap.GetService<UserInterfaceService>()
                 .CurrentInterface
                 .ActivateThisScreen<MainMenuScreen>();
-            yield break;
+            yield return null;
+            Bootstrap.GetService<AudioService>().PlayAudio(AudioTags.BG_MUSIC);
+            Screen.sleepTimeout = SleepTimeout.NeverSleep;
         }
     }
 }

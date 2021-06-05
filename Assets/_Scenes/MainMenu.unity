@@ -214,6 +214,7 @@ MonoBehaviour:
   overridePreviousScreen: {fileID: 0}
   titleTextTmp: {fileID: 143632842}
   highScoreTextTmp: {fileID: 1525947506}
+  infoPanel: {fileID: 947479845}
 --- !u!114 &115284837
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1194,12 +1195,12 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 55
-  m_fontSizeBase: 55
+  m_fontSize: 60
+  m_fontSizeBase: 60
   m_fontWeight: 400
-  m_enableAutoSizing: 0
-  m_fontSizeMin: 18
-  m_fontSizeMax: 72
+  m_enableAutoSizing: 1
+  m_fontSizeMin: 40
+  m_fontSizeMax: 60
   m_fontStyle: 0
   m_HorizontalAlignment: 32
   m_VerticalAlignment: 4096
@@ -1610,9 +1611,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 947479845}
-        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
-        m_MethodName: SetActive
+      - m_Target: {fileID: 115284836}
+        m_TargetAssemblyTypeName: RPSLS.UI.Screens.MainMenuScreen, Assembly-CSharp
+        m_MethodName: ToggleInfoPanel
         m_Mode: 6
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -2529,9 +2530,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 947479845}
-        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
-        m_MethodName: SetActive
+      - m_Target: {fileID: 115284836}
+        m_TargetAssemblyTypeName: RPSLS.UI.Screens.MainMenuScreen, Assembly-CSharp
+        m_MethodName: ToggleInfoPanel
         m_Mode: 6
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -2874,6 +2875,39 @@ MonoBehaviour:
     m_Mode: 0
     m_NumColorKeys: 2
     m_NumAlphaKeys: 3
+  bounceCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0.36363637
+      outSlope: 0.36363637
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 2.75
+      value: 1
+      inSlope: -0.008190941
+      outSlope: -1.3290718
+      tangentMode: 1
+      weightedMode: 0
+      inWeight: 0.4671708
+      outWeight: 0.26345456
+    - serializedVersion: 3
+      time: 3
+      value: 0
+      inSlope: -4
+      outSlope: -4
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
 --- !u!114 &1554351222
 MonoBehaviour:
   m_ObjectHideFlags: 0

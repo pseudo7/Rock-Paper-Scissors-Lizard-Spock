@@ -87,6 +87,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 64f4f75f2bb3f5c4a82b1bcebe5857cd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  audioReferences:
+  - {fileID: 11400000, guid: 9cff684cd55250c4fa1360b0f4388db6, type: 2}
+  - {fileID: 11400000, guid: 83643e64d6de91f4599376aa28deab9f, type: 2}
+  - {fileID: 11400000, guid: 73192acf1383de646bcb5401d56f7a2f, type: 2}
+  - {fileID: 11400000, guid: 68ba6c720ed83804cbdf25f70ce60a49, type: 2}
+  - {fileID: 11400000, guid: 1009865c0b9a7cb4687be2831a991918, type: 2}
+  - {fileID: 11400000, guid: a333bc05c9b04d34dbc4d1c4c2e02619, type: 2}
+  - {fileID: 11400000, guid: 5ec4d9f3f2850c84a852092934ba7ffa, type: 2}
 --- !u!114 &2299005291664327081
 MonoBehaviour:
   m_ObjectHideFlags: 0

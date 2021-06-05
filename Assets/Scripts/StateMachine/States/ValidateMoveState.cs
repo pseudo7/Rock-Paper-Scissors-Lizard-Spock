@@ -1,4 +1,5 @@
 using System.Collections;
+using RPSLS.Audio;
 using RPSLS.Entities;
 using RPSLS.Miscellaneous;
 using RPSLS.Services;
@@ -10,30 +11,46 @@ namespace RPSLS.StateMachine.States
 {
     public class ValidateMoveState : StateBase
     {
+        private bool? _currentResult;
+
         internal override IEnumerator Initialise()
         {
             var interfaceService = Bootstrap.GetService<UserInterfaceService>();
             interfaceService.ToggleInteractions(false);
 
             var fsmService = Bootstrap.GetService<StateMachineService>();
-            var result = CalculateResults(Bootstrap.GetService<GameManagementService>().CurrentPlayerSelection);
+            _currentResult = CalculateResults(Bootstrap.GetService<GameManagementService>().CurrentPlayerSelection);
 
-            interfaceService.CurrentInterface.GetScreen<GameplayHudScreen>().ShowVignette(result);
+            interfaceService.CurrentInterface.GetScreen<GameplayHudScreen>().ShowVignette(_currentResult);
 
-            if (result.HasValue && !result.Value)
+            if (!_currentResult.HasValue)
+                Bootstrap.GetService<AudioService>().PlayAudio(AudioTags.TIE);
+            else if (_currentResult.Value)
+                Bootstrap.GetService<AudioService>().PlayAudio(AudioTags.WON);
+            else
+            {
+                Bootstrap.GetService<AudioService>().PlayAudio(AudioTags.LOST);
                 Handheld.Vibrate();
+            }
 
             yield return fsmService.StartCoroutine(Perform());
+        }
 
-            if (!result.HasValue)
+        internal override IEnumerator Perform()
+        {
+            var fsmService = Bootstrap.GetService<StateMachineService>();
+            yield return new WaitForSeconds(3F);
+            if (!_currentResult.HasValue)
             {
                 fsmService.CurrentFsm.SetState(new PlayState());
                 Bootstrap.GetService<ScoreService>().IncrementCurrentScore(0);
+                Bootstrap.GetService<AudioService>().PlayAudio(AudioTags.REFILL);
             }
-            else if (result.Value)
+            else if (_currentResult.Value)
             {
                 fsmService.CurrentFsm.SetState(new PlayState());
                 Bootstrap.GetService<ScoreService>().IncrementCurrentScore(1);
+                Bootstrap.GetService<AudioService>().PlayAudio(AudioTags.REFILL);
             }
             else
             {
@@ -43,12 +60,7 @@ namespace RPSLS.StateMachine.States
             }
 
             Bootstrap.GetService<GameManagementService>().ResetValues();
-            interfaceService.ToggleInteractions(true);
-        }
-
-        internal override IEnumerator Perform()
-        {
-            yield return new WaitForSeconds(3F);
+            Bootstrap.GetService<UserInterfaceService>().ToggleInteractions(true);
         }
 
         private bool? CalculateResults(GameEnums.PlayableHandType playerSelectedType)
@@ -58,7 +70,7 @@ namespace RPSLS.StateMachine.States
                 .GetScreen<GameplayHudScreen>();
             if (playerSelectedType == GameEnums.PlayableHandType.None)
             {
-                hudScreen.ShowOutcomeMessage("You didn't played your hand!");
+                hudScreen.ShowOutcomeMessage("You didn't play your hand!");
                 return false;
             }
 

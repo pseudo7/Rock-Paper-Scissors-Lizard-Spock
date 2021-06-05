@@ -23,6 +23,7 @@ namespace RPSLS.Services
                 .CurrentInterface
                 .GetScreen<GameplayHudScreen>();
             var value = 0F;
+
             while (value < 1F)
             {
                 hudScreen.UpdateTimeBar(value += Time.deltaTime * 3F);
