@@ -42,3 +42,5 @@
   * UserInterface Service
 
 * **Used Addressables for Async Loading/Unloading of Assets**
+
+* **Adhered the coding process to most of SOLID principles**
