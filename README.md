@@ -33,11 +33,12 @@
   * Validate-Move State
   * Final State
 
-* **Service Locator Design Pattern*
+* **Service Locator Design Pattern**
   * Asset Service
   * Audio Service
   * GameManagement Service
   * Score Service
   * StateMachine Service
   * UserInterface Service
-  
+
+* **Used Addressables for Async Loading/Unloading of Assets**
